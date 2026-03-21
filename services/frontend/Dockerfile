@@ -1,39 +1,27 @@
-# Build stage
-FROM node:22-alpine3.20 AS builder
-
-# Install security updates
-RUN apk update && \
-    apk upgrade --no-cache && \
-    rm -rf /var/cache/apk/*
+# Stage 1: Builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# نسخ ملفات الـ package بس لتسريع npm install
 COPY package*.json ./
-RUN npm install && \
-    npm cache clean --force
 
+# تثبيت dependencies فقط بدون تحديث كل الـ OS
+RUN npm install --legacy-peer-deps
+
+# نسخ باقي الملفات وعمل build
 COPY . .
 RUN npm run build
 
-# Production stage
+# Stage 2: Production (Nginx)
 FROM nginx:1.27-alpine3.20
 
-# Install security updates and create nginx user
-RUN apk update && \
-    apk upgrade --no-cache && \
-    rm -rf /var/cache/apk/* && \
-    chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /var/log/nginx && \
-    touch /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/run/nginx.pid
+# نستخدم Nginx كـ unprivileged user
+USER nginx
 
-# Copy built files
+# نسخ الملفات المبنية فقط مع صلاحيات nginx
 COPY --from=builder --chown=nginx:nginx /app/dist /usr/share/nginx/html
 COPY --chown=nginx:nginx nginx.conf /etc/nginx/conf.d/default.conf
 
-# Use unprivileged user
-USER nginx
-
 EXPOSE 80
-
 CMD ["nginx", "-g", "daemon off;"]
