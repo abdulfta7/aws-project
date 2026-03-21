@@ -262,7 +262,7 @@ jobs:
           category: 'auth-service'
 
       - name: Upload Trivy JSON results as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() && hashFiles('trivy-auth-results.json') != ''
         with:
           name: trivy-auth-results
@@ -284,7 +284,7 @@ jobs:
             ${{ env.DOCKER_USERNAME }}/task-manager-auth:${{ needs.generate-version.outputs.version }}
 
       - name: Upload Auth Service SBOM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() && hashFiles('auth-sbom.spdx.json') != ''
         with:
           name: auth-sbom
@@ -309,7 +309,7 @@ jobs:
           echo "success=true" >> $GITHUB_OUTPUT
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: success()
         with:
           name: auth-service-artifacts
@@ -381,7 +381,7 @@ jobs:
           category: 'task-service'
 
       - name: Upload Trivy JSON results as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() && hashFiles('trivy-task-results.json') != ''
         with:
           name: trivy-task-results
@@ -406,7 +406,7 @@ jobs:
           echo "success=true" >> $GITHUB_OUTPUT
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: success()
         with:
           name: task-service-artifacts
@@ -478,7 +478,7 @@ jobs:
           category: 'frontend'
 
       - name: Upload Trivy JSON results as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() && hashFiles('trivy-frontend-results.json') != ''
         with:
           name: trivy-frontend-results
@@ -503,7 +503,7 @@ jobs:
           echo "success=true" >> $GITHUB_OUTPUT
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: success()
         with:
           name: frontend-artifacts
@@ -575,7 +575,7 @@ jobs:
           category: 'nginx'
 
       - name: Upload Trivy JSON results as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always() && hashFiles('trivy-nginx-results.json') != ''
         with:
           name: trivy-nginx-results
@@ -600,7 +600,7 @@ jobs:
           echo "success=true" >> $GITHUB_OUTPUT
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: success()
         with:
           name: nginx-artifacts
@@ -834,7 +834,7 @@ jobs:
           priority: high
 
       - name: Upload vulnerability report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: vulnerability-report
