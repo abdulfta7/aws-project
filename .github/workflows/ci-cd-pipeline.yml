@@ -620,7 +620,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download all Trivy results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           path: trivy-results/
@@ -859,7 +859,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           path: artifacts/
